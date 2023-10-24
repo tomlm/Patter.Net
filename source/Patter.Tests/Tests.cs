@@ -44,6 +44,26 @@ namespace Patter.Tests
         }
 
         [TestMethod]
+        public void CaptureUntil_Test()
+        {
+            var pat = new Patter<string>()
+                .SeekChars("e")
+                .CaptureUntil("lm");
+
+            Assert.AreEqual("efghijk", pat.Matches("abcdefghijklmnopqrstuvwxyz").First());
+        }
+
+        [TestMethod]
+        public void CapturePast_Test()
+        {
+            var pat = new Patter<string>()
+                .SeekChars("e")
+                .CaptureUntilPast("lm");
+            Assert.AreEqual("efghijklm", pat.Matches("abcdefghijklmnopqrstuvwxyz").First());
+        }
+
+
+        [TestMethod]
         public void CaptureChars_Test()
         {
             var pat = new Patter<int>()
@@ -55,6 +75,25 @@ namespace Patter.Tests
             Assert.AreEqual(456, pat.Matches("this is 123 not 456").Skip(1).First());
         }
 
+        [TestMethod]
+        public void CaptureUntilChars_Test()
+        {
+            var pat = new Patter<string>()
+                .SeekChars("b")
+                .CaptureUntilChars("f");
+
+            Assert.AreEqual("bcde", pat.Matches("abcdefg").First());
+        }
+
+        [TestMethod]
+        public void CaptureUntilPastChars_Test()
+        {
+            var pat = new Patter<string>()
+                .SeekChars("b")
+                .CaptureUntilPastChars("f");
+
+            Assert.AreEqual("bcdef", pat.Matches("abcdefg").First());
+        }
 
         [TestMethod]
         public void SkipTest_NoCase()

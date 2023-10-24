@@ -9,9 +9,11 @@ namespace Patter.Operations
         private Action<PatternContext<T>> _func;
         private string _endText;
         private StringComparison _comparison;
+        private bool _skipPast;
 
-        internal CaptureToText(string endText, StringComparison comparison, Action<PatternContext<T>>? func)
+        internal CaptureToText(string endText, StringComparison comparison, bool skipPast, Action<PatternContext<T>>? func)
         {
+            _skipPast = skipPast;
             _func = func ?? DefaultFunc;
             _endText = endText;
             _comparison = comparison;
@@ -33,6 +35,9 @@ namespace Patter.Operations
             var iEnd = context.Text.IndexOf(_endText, context.Pos, _comparison);
             if (iEnd > 0)
             {
+                if (_skipPast)
+                    iEnd += _endText.Length;
+
                 context.MatchText = context.Text.Substring(context.Pos, iEnd - context.Pos);
                 context.HasMatch = true;
 

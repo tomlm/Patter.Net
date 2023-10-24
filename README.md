@@ -85,17 +85,19 @@ This will extract the text and urls from the tags.  It's an enumerable, so you c
 
 # Methods
 
-| Method                             | Description                                                  |
-| ---------------------------------- | ------------------------------------------------------------ |
-| **Seek(text)**                     | Move the cursor to next instance of *text*                   |
-| **SeekChars(chars)**               | Move the cursor to next instance of one of the *chars*       |
-| **SeekPast(text)**                 | Move the cursor to just past the next instance of *text*     |
-| **SeekPastChars(chars)**           | Move the cursor to just first instance of set of chars and then to first instance of not the chars |
-| **SkipChars(chars)**               | Move the cursor to first char that is not in the set of chars |
-| **CaptureChars(chars, func)**      | Capture chars while they are in the set of chars, call **func(context)** to give you ability to extra info from the **context.MatchText** and put into **context.Match** |
-| **CaptureUntil(text, func)**       | Capture characters until text is found, then call **func(context)** to give you ability to extract info from the **context.MatchText** and put into the **context.Match** |
-| **CaptureUntilChars(chars, func)** | Capture characters until one of *chars* is found, call **func(context)** to give you ability to extract info from the **context.MatchText** and put into the **context.Match** |
-| **Custom(func)**                   | Let's you write a custom pattern operation, you are responsible for changing **context** properties directly (**Pos, MatchText, Match, HasMatch**) |
+| Method                                 | Description                                                  |
+| -------------------------------------- | ------------------------------------------------------------ |
+| **Seek(text)**                         | Move the cursor to next instance of *text*                   |
+| **SeekPast(text)**                     | Move the cursor to just past the next instance of *text*     |
+| **SeekChars(chars)**                   | Move the cursor to next instance of one of the *chars*       |
+| **SeekPastChars(chars)**               | Move the cursor to just first instance of set of chars and then to first instance of not the chars |
+| **SkipChars(chars)**                   | Move the cursor to first char that is not in the set of chars |
+| **CaptureChars(chars, func)**          | Capture chars while they are in the set of chars, call **func(context)** to give you ability to extra info from the **context.MatchText** and put into **context.Match** |
+| **CaptureUntil(text, func)**           | Capture characters until text is found, then call **func(context)** to give you ability to extract info from the **context.MatchText** and put into the **context.Match** |
+| **CaptureUntilPast(text, func)**       | Capture characters until text is found including text, then call **func(context)** to give you ability to extract info from the **context.MatchText** and put into the **context.Match** |
+| **CaptureUntilChars(chars, func)**     | Capture characters until one of *chars* is found, call **func(context)** to give you ability to extract info from the **context.MatchText** and put into the **context.Match** |
+| **CaptureUntilPastChars(chars, func)** | Capture characters until one of *chars* is found, including all chars, call **func(context)** to give you ability to extract info from **context.MatchText** and put into **context.Match** |
+| **Custom(func)**                       | Let's you write a custom pattern operation, you are responsible for changing **context** properties directly (**Pos, MatchText, Match, HasMatch**) |
 
 # PatternContext
 

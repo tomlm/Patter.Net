@@ -59,7 +59,8 @@ namespace Patter
         /// <returns>this</returns>
         public Patter<T> SeekPast(string seekText, StringComparison comparisonType = StringComparison.OrdinalIgnoreCase)
         {
-            _operations.Add(new SeekPast<T>(seekText, comparisonType));
+            _operations.Add(new SeekText<T>(seekText, comparisonType));
+            _operations.Add(new SkipText<T>(seekText, comparisonType));
             return this;
         }
 
@@ -70,7 +71,8 @@ namespace Patter
         /// <returns>this</returns>
         public Patter<T> SeekPastChars(char[] chars)
         {
-            _operations.Add(new SeekPastChars<T>(chars));
+            _operations.Add(new SeekChars<T>(chars));
+            _operations.Add(new SkipChars<T>(chars));
             return this;
         }
 
@@ -138,7 +140,7 @@ namespace Patter
         /// <returns></returns>
         public Patter<T> CaptureUntil(string endText, StringComparison comparison, Action<PatternContext<T>>? func = null)
         {
-            _operations.Add(new CaptureToText<T>(endText, comparison, func));
+            _operations.Add(new CaptureToText<T>(endText, comparison, skipPast: false, func));
             return this;
         }
 
@@ -150,7 +152,7 @@ namespace Patter
         /// <returns></returns>
         public Patter<T> CaptureUntil(string endText, Action<PatternContext<T>>? func = null)
         {
-            _operations.Add(new CaptureToText<T>(endText, StringComparison.OrdinalIgnoreCase, func));
+            _operations.Add(new CaptureToText<T>(endText, StringComparison.OrdinalIgnoreCase, skipPast: false, func));
             return this;
         }
 
@@ -162,7 +164,7 @@ namespace Patter
         /// <returns></returns>
         public Patter<T> CaptureUntilChars(char[] chars, Action<PatternContext<T>>? func = null)
         {
-            _operations.Add(new CaptureToChars<T>(chars, func));
+            _operations.Add(new CaptureToChars<T>(chars, skipPast:false, func));
             return this;
         }
 
@@ -175,6 +177,44 @@ namespace Patter
         public Patter<T> CaptureUntilChars(string chars, Action<PatternContext<T>>? func = null)
         {
             return CaptureUntilChars(chars.ToArray(), func);
+        }
+
+        /// <summary>
+        /// Capture text until you find end text, skip past the text
+        /// then call func() when done where context.MatchText will have current match text.
+        /// </summary>
+        /// <param name="endText"></param>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        public Patter<T> CaptureUntilPast(string endText, Action<PatternContext<T>>? func = null)
+        {
+            _operations.Add(new CaptureToText<T>(endText, StringComparison.OrdinalIgnoreCase, skipPast: true, func));
+            return this;
+        }
+
+        /// <summary>
+        /// Capture chars until you get to one of the chars, then past those chars
+        /// then call func() when done where context.MatchText will have current match text.
+        /// </summary>
+        /// <param name="chars"></param>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        public Patter<T> CaptureUntilPastChars(char[] chars, Action<PatternContext<T>>? func = null)
+        {
+            _operations.Add(new CaptureToChars<T>(chars, skipPast: true, func));
+            return this;
+        }
+
+        /// <summary>
+        /// Capture chars until you get to one of the chars in the string, then skip past those chars
+        /// then call func() when done where context.MatchText will have current match text.
+        /// </summary>
+        /// <param name="chars"></param>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        public Patter<T> CaptureUntilPastChars(string chars, Action<PatternContext<T>>? func = null)
+        {
+            return CaptureUntilPastChars(chars.ToArray(), func);
         }
 
 

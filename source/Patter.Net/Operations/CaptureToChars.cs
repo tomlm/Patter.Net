@@ -4,15 +4,17 @@ using System.Diagnostics;
 
 namespace Patter.Operations
 {
- 
+
     [DebuggerDisplay("CaptureToChars([{_chars}])")]
     internal class CaptureToChars<T> : PatternOp<T>
     {
+        private readonly bool _skipPast;
         private Action<PatternContext<T>> _func;
         private HashSet<char> _chars;
 
-        internal CaptureToChars(char[] chars, Action<PatternContext<T>>? func)
+        internal CaptureToChars(char[] chars, bool skipPast, Action<PatternContext<T>>? func)
         {
+            _skipPast = skipPast;
             _func = func ?? DefaultFunc;
             _chars = new HashSet<char>(chars);
         }
@@ -38,11 +40,24 @@ namespace Patter.Operations
                     break;
                 iEnd++;
             }
+
+            if (_skipPast)
+            {
+                while (iEnd < context.Text.Length)
+                {
+                    var ch = context.Text[iEnd];
+                    if (!_chars.Contains(ch))
+                        break;
+                    iEnd++;
+                }
+            }
+
             if (iEnd < context.Text.Length)
             {
-                context.MatchText= context.Text.Substring(context.Pos, iEnd - context.Pos);
+                context.MatchText = context.Text.Substring(context.Pos, iEnd - context.Pos);
                 context.HasMatch = true;
                 _func(context);
+
                 context.Pos = iEnd;
             }
             else
