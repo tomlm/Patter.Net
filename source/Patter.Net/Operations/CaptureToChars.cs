@@ -1,22 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Patter.Operations
 {
-    internal class CaptureValueToChars<T> : PatternOp<T>
+ 
+    [DebuggerDisplay("CaptureToChars([{_chars}])")]
+    internal class CaptureToChars<T> : PatternOp<T>
     {
-        private Action<PatternContext<T>, string> _func;
+        private Action<PatternContext<T>> _func;
         private HashSet<char> _chars;
 
-        internal CaptureValueToChars(Action<PatternContext<T>, string> func, params char[] chars)
+        internal CaptureToChars(char[] chars, Action<PatternContext<T>> func)
         {
-            _func = func;
+            _func = func ?? DefaultFunc;
             _chars = new HashSet<char>(chars);
         }
 
+        private void DefaultFunc(PatternContext<T> context)
+        {
+            if (typeof(T) == typeof(string))
+            {
+                context.Match = (T)(object)context.MatchText;
+            }
+        }
 
         internal override void Execute(PatternContext<T> context)
         {
+            if (context.Pos < 0)
+                return;
+
             var iEnd = context.Pos;
             while (iEnd < context.Text.Length)
             {
@@ -27,9 +40,9 @@ namespace Patter.Operations
             }
             if (iEnd < context.Text.Length)
             {
-                var currentText = context.Text.Substring(context.Pos, iEnd - context.Pos);
+                context.MatchText= context.Text.Substring(context.Pos, iEnd - context.Pos);
                 context.HasMatch = true;
-                _func(context, currentText);
+                _func(context);
                 context.Pos = iEnd;
             }
             else

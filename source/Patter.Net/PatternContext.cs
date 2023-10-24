@@ -11,13 +11,24 @@ namespace Patter
             Text = text;
         }
 
+        /// <summary>
+        /// Current Position
+        /// </summary>
         public int Pos { get; set; }
         
-        public string Text { get; set; }
+        /// <summary>
+        /// Full text that is being matched against.
+        /// </summary>
+        public string Text { get; private set; }
 
+        /// <summary>
+        /// Current character 
+        /// </summary>
         public char CurrentChar { get => (Pos > 0) ? Text[Pos] : Char.MinValue;  }
 
-        public T? CurrentMatch { get; set; }
+        public string MatchText { get; internal set; }
+
+        public T? Match { get; set; }
 
         public bool HasMatch { get; set; } = false;
 
@@ -25,9 +36,9 @@ namespace Patter
         {
             HasMatch = false;
             if (typeof(T).IsValueType || typeof(T) == typeof(string))
-                CurrentMatch = default(T);
+                Match = default(T);
             else
-                CurrentMatch = Activator.CreateInstance<T>();
+                Match = Activator.CreateInstance<T>();
         }
     }
 }

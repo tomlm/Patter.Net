@@ -1,18 +1,23 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Patter.Operations
 {
+    [DebuggerDisplay("SeekAndSkipChars([{String.Join(String.Empty, _chars}])")]
     internal class SeekAndSkipChars<T> : PatternOp<T>
     {
         private HashSet<char> _chars;
 
-        internal SeekAndSkipChars(params char[] chars)
+        internal SeekAndSkipChars(char[] chars)
         {
             _chars = new HashSet<char>(chars);
         }
 
         internal override void Execute(PatternContext<T> context)
         {
+            if (context.Pos < 0)
+                return;
+
             while (context.Pos < context.Text.Length)
             {
                 var ch = context.Text[context.Pos];
