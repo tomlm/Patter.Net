@@ -17,92 +17,185 @@ namespace Patter
         }
 
 
-        // SKIP 
+        /// <summary>
+        /// Seek current position to the next instances of seekText
+        /// </summary>
+        /// <param name="seekText">text to seek for</param>
+        /// <param name="comparisonType">case rules (Default is ignore case)</param>
+        /// <returns>this</returns>
         public Patter<T> Seek(string seekText, StringComparison comparisonType = StringComparison.OrdinalIgnoreCase)
         {
             _operations.Add(new SeekText<T>(seekText, comparisonType));
             return this;
         }
 
+        /// <summary>
+        /// Seek current position to the next instance of one of the characters
+        /// </summary>
+        /// <param name="chars">chars to search fore</param>
+        /// <returns>this</returns>
         public Patter<T> SeekChars(char[] chars)
         {
             _operations.Add(new SeekChars<T>(chars));
             return this;
         }
 
+        /// <summary>
+        /// Seek current position to the next instance of one of the characters (in the string)
+        /// </summary>
+        /// <param name="chars">chars as a string</param>
+        /// <returns>this</returns>
         public Patter<T> SeekChars(string chars)
         {
             return SeekChars(chars.ToArray());
         }
 
 
-        public Patter<T> SeekAndSkip(string seekText, StringComparison comparisonType = StringComparison.OrdinalIgnoreCase)
+        /// <summary>
+        /// Seek current position to the just past the instance of seekText 
+        /// </summary>
+        /// <param name="seekText">text to seek</param>
+        /// <param name="comparisonType">string comparison (default is igonore case)</param>
+        /// <returns>this</returns>
+        public Patter<T> SeekPast(string seekText, StringComparison comparisonType = StringComparison.OrdinalIgnoreCase)
         {
-            _operations.Add(new SeekAndSkipText<T>(seekText, comparisonType));
+            _operations.Add(new SeekPast<T>(seekText, comparisonType));
             return this;
         }
 
-        public Patter<T> SeekAndSkipChars(char[] chars)
+        /// <summary>
+        /// Seek current position to the the next instance of a character and then seek past that to first instance of not that character.
+        /// </summary>
+        /// <param name="chars">chars to search for</param>
+        /// <returns>this</returns>
+        public Patter<T> SeekPastChars(char[] chars)
         {
-            _operations.Add(new SeekAndSkipChars<T>(chars));
+            _operations.Add(new SeekPastChars<T>(chars));
             return this;
         }
 
-
-        public Patter<T> SeekAndSkipChars(string chars)
+        /// <summary>
+        /// Seek current position to first character past a set of characters.
+        /// </summary>
+        /// <param name="chars">chars as a string</param>
+        /// <returns>this</returns>
+        public Patter<T> SeekPastChars(string chars)
         {
-            return SeekAndSkipChars(chars.ToArray());
+            return SeekPastChars(chars.ToArray());
         }
 
-        // Skip
+        /// <summary>
+        /// Move current position past text.
+        /// </summary>
+        /// <param name="skipText"></param>
+        /// <param name="comparison"></param>
+        /// <returns></returns>
         public Patter<T> Skip(string skipText, StringComparison comparison = StringComparison.OrdinalIgnoreCase)
         {
             _operations.Add(new SkipText<T>(skipText, comparison));
             return this;
         }
 
+        /// <summary>
+        /// Move current position past chars
+        /// </summary>
+        /// <param name="chars"></param>
+        /// <returns></returns>
         public Patter<T> SkipChars(char[] chars)
         {
             _operations.Add(new SkipChars<T>(chars));
             return this;
         }
 
+        /// <summary>
+        /// Move current position past chars (as a string)
+        /// </summary>
+        /// <param name="chars"></param>
+        /// <returns></returns>
         public Patter<T> SkipChars(string chars)
         {
             return SkipChars(chars.ToArray());
         }
 
-        public Patter<T> CaptureChars(char[] chars, Action<PatternContext<T>> func = null)
+        /// <summary>
+        /// Capture text while they match chars, call func() when done, where context.MatchText will have current match text
+        /// </summary>
+        /// <param name="chars"></param>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        public Patter<T> CaptureChars(char[] chars, Action<PatternContext<T>>? func = null)
         {
             _operations.Add(new CaptureChars<T>(chars, func));
             return this;
         }
 
-        public Patter<T> CaptureUntil(string endText, StringComparison comparison, Action<PatternContext<T>> func = null)
+        /// <summary>
+        /// Capture text until you find endText, call func() when done, where context.MatchText will have current match text
+        /// </summary>
+        /// <param name="endText"></param>
+        /// <param name="comparison"></param>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        public Patter<T> CaptureUntil(string endText, StringComparison comparison, Action<PatternContext<T>>? func = null)
         {
             _operations.Add(new CaptureToText<T>(endText, comparison, func));
             return this;
         }
 
-        public Patter<T> CaptureUntil(string endText, Action<PatternContext<T>> func = null)
+        /// <summary>
+        /// Capture text until you  find end text, call func() when done where context.MatchText will have current match text.
+        /// </summary>
+        /// <param name="endText"></param>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        public Patter<T> CaptureUntil(string endText, Action<PatternContext<T>>? func = null)
         {
             _operations.Add(new CaptureToText<T>(endText, StringComparison.OrdinalIgnoreCase, func));
             return this;
         }
 
-        public Patter<T> CaptureUntilChars(char[] chars, Action<PatternContext<T>> func = null)
+        /// <summary>
+        /// Capture chars until you get to one of the chars, then call func() when done where context.MatchText will have current match text.
+        /// </summary>
+        /// <param name="chars"></param>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        public Patter<T> CaptureUntilChars(char[] chars, Action<PatternContext<T>>? func = null)
         {
             _operations.Add(new CaptureToChars<T>(chars, func));
             return this;
         }
 
-        public Patter<T> CaptureToChars(string chars, Action<PatternContext<T>> func = null)
+        /// <summary>
+        /// Capture chars until you get to one of the chars in the string, then call func() when done where context.MatchText will have current match text.
+        /// </summary>
+        /// <param name="chars"></param>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        public Patter<T> CaptureUntilChars(string chars, Action<PatternContext<T>>? func = null)
         {
             return CaptureUntilChars(chars.ToArray(), func);
         }
 
-        // perform match
-        public IEnumerable<T> Match(string text)
+
+        /// <summary>
+        /// Custon action, call func(context) and context will have current position
+        /// </summary>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        public Patter<T> Custom(Action<PatternContext<T>> func)
+        {
+            _operations.Add(new Custom<T>(func));
+            return this;
+        }
+
+
+        /// <summary>
+        /// Search for matches of the pattern in text.
+        /// </summary>
+        /// <param name="text">text to search in</param>
+        /// <returns>enumeration of objects</returns>
+        public IEnumerable<T> Matches(string text)
         {
             var context = new PatternContext<T>(text);
 

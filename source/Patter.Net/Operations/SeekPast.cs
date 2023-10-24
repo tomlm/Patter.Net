@@ -4,13 +4,13 @@ using System.Diagnostics;
 namespace Patter.Operations
 {
 
-    [DebuggerDisplay("SeekAndSkipText('{_seekText}', {_comparisonType})")]
-    internal class SeekAndSkipText<T> : PatternOp<T>
+    [DebuggerDisplay("SeekPast('{_seekText}', {_comparisonType})")]
+    internal class SeekPast<T> : PatternOp<T>
     {
         private string _seekText;
         private StringComparison _comparisonType;
 
-        internal SeekAndSkipText(string seekText, StringComparison comparisonType)
+        internal SeekPast(string seekText, StringComparison comparisonType)
         {
             _seekText = seekText;
             _comparisonType = comparisonType;

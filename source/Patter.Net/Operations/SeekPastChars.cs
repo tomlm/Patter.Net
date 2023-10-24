@@ -3,12 +3,12 @@ using System.Diagnostics;
 
 namespace Patter.Operations
 {
-    [DebuggerDisplay("SeekAndSkipChars([{String.Join(String.Empty, _chars}])")]
-    internal class SeekAndSkipChars<T> : PatternOp<T>
+    [DebuggerDisplay("SeekPastChars([{String.Join(String.Empty, _chars}])")]
+    internal class SeekPastChars<T> : PatternOp<T>
     {
         private HashSet<char> _chars;
 
-        internal SeekAndSkipChars(char[] chars)
+        internal SeekPastChars(char[] chars)
         {
             _chars = new HashSet<char>(chars);
         }

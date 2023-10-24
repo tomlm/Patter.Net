@@ -11,7 +11,7 @@ namespace Patter.Operations
         private Action<PatternContext<T>> _func;
         private HashSet<char> _chars;
 
-        internal CaptureToChars(char[] chars, Action<PatternContext<T>> func)
+        internal CaptureToChars(char[] chars, Action<PatternContext<T>>? func)
         {
             _func = func ?? DefaultFunc;
             _chars = new HashSet<char>(chars);
@@ -21,7 +21,7 @@ namespace Patter.Operations
         {
             if (typeof(T) == typeof(string))
             {
-                context.Match = (T)(object)context.MatchText;
+                context.Match = (T)(object)context.MatchText!;
             }
         }
 

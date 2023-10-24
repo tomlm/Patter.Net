@@ -10,7 +10,7 @@ namespace Patter.Operations
         private string _endText;
         private StringComparison _comparison;
 
-        internal CaptureToText(string endText, StringComparison comparison, Action<PatternContext<T>> func)
+        internal CaptureToText(string endText, StringComparison comparison, Action<PatternContext<T>>? func)
         {
             _func = func ?? DefaultFunc;
             _endText = endText;
@@ -21,7 +21,7 @@ namespace Patter.Operations
         {
             if (typeof(T) == typeof(string))
             {
-                context.Match = (T)(object)context.MatchText;
+                context.Match = (T)(object)context.MatchText!;
             }
         }
 
