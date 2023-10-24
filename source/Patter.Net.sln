@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Patter.Net", "Patter.Net\Patter.Net.csproj", "{29F603CC-0079-4B51-9598-DBFCB643B1CD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Patter.Tests", "Patter.Tests\Patter.Tests.csproj", "{B5B509EA-4534-4184-8EE3-48C04ED8CEAF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,8 +17,15 @@ Global
 		{29F603CC-0079-4B51-9598-DBFCB643B1CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29F603CC-0079-4B51-9598-DBFCB643B1CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{29F603CC-0079-4B51-9598-DBFCB643B1CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5B509EA-4534-4184-8EE3-48C04ED8CEAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5B509EA-4534-4184-8EE3-48C04ED8CEAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5B509EA-4534-4184-8EE3-48C04ED8CEAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5B509EA-4534-4184-8EE3-48C04ED8CEAF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {181491AE-6ACF-4738-807E-BD7511B65A82}
 	EndGlobalSection
 EndGlobal

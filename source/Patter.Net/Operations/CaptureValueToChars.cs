@@ -5,17 +5,17 @@ namespace Patter.Operations
 {
     internal class CaptureValueToChars<T> : PatternOp<T>
     {
-        private Action<T, string, int, int> _func;
+        private Action<PatternContext<T>, string> _func;
         private HashSet<char> _chars;
 
-        internal CaptureValueToChars(Action<T, string, int, int> func, params char[] chars)
+        internal CaptureValueToChars(Action<PatternContext<T>, string> func, params char[] chars)
         {
             _func = func;
             _chars = new HashSet<char>(chars);
         }
 
 
-        internal override T Execute(PatternContext<T> context)
+        internal override void Execute(PatternContext<T> context)
         {
             var iEnd = context.Pos;
             while (iEnd < context.Text.Length)
@@ -25,10 +25,17 @@ namespace Patter.Operations
                     break;
                 iEnd++;
             }
-            var currentText = context.Text.Substring(context.Pos, iEnd - context.Pos);
-            _func(context.Capture, currentText, context.Pos, iEnd);
-            context.Pos = iEnd;
-            return default(T);
+            if (iEnd < context.Text.Length)
+            {
+                var currentText = context.Text.Substring(context.Pos, iEnd - context.Pos);
+                context.HasMatch = true;
+                _func(context, currentText);
+                context.Pos = iEnd;
+            }
+            else
+            {
+                context.Pos = -1;
+            }
         }
     }
 }

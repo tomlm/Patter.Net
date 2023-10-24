@@ -2,6 +2,6 @@
 {
     internal abstract class PatternOp<T>
     {
-        internal abstract T Execute(PatternContext<T> context);
+        internal abstract void Execute(PatternContext<T> context);
     }
 }

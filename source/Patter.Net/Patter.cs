@@ -2,6 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleToAttribute("Patter.Tests")]
 
 namespace Patter
 {
@@ -10,10 +13,6 @@ namespace Patter
         private List<PatternOp<T>> _operations = new List<PatternOp<T>>();
 
         public Patter()
-        {
-        }
-
-        static Patter()
         {
         }
 
@@ -72,35 +71,35 @@ namespace Patter
             return SkipChars(chars.ToArray());
         }
 
-        // Start/EndCapture
-        public Patter<T> StartCapture()
-        {
-            _operations.Add(new StartCapture<T>());
-            return this;
-        }
+        //// Start/EndCapture
+        //public Patter<T> StartCapture()
+        //{
+        //    _operations.Add(new StartCapture<T>());
+        //    return this;
+        //}
 
-        public Patter<T> CaptureValue(Action<T, string, int, int> func, string endText, StringComparison comparison = StringComparison.OrdinalIgnoreCase)
+        public Patter<T> CaptureValue(Action<PatternContext<T>, string> func, string endText, StringComparison comparison = StringComparison.OrdinalIgnoreCase)
         {
             _operations.Add(new CaptureValueToText<T>(func, endText, comparison));
             return this;
         }
 
-        public Patter<T> CaptureValueToChars(Action<T, string, int, int> func, char[] chars)
+        public Patter<T> CaptureValueToChars(Action<PatternContext<T>, string> func, char[] chars)
         {
             _operations.Add(new CaptureValueToChars<T>(func, chars));
             return this;
         }
 
-        public Patter<T> CaptureValueToChars(Action<T, string, int, int> func, string chars)
+        public Patter<T> CaptureValueToChars(Action<PatternContext<T>, string> func, string chars)
         {
             return CaptureValueToChars(func, chars.ToArray());
         }
 
-        public Patter<T> EndCapture()
-        {
-            _operations.Add(new EndCapture<T>());
-            return this;
-        }
+        //public Patter<T> EndCapture()
+        //{
+        //    _operations.Add(new EndCapture<T>());
+        //    return this;
+        //}
 
         // perform match
         public IEnumerable<T> Match(string text)
@@ -109,16 +108,20 @@ namespace Patter
 
             while (context.Pos >= 0 && context.Pos < context.Text.Length)
             {
+                context.ResetMatch();
+
                 foreach (var op in _operations)
                 {
-                    var result = op.Execute(context);
-                    if (result != null)
-                    {
-                        yield return result;
-                    }
+                    op.Execute(context);
                     if (context.Pos < 0)
+                    {
+                        context.HasMatch = false;
                         break;
+                    }
                 }
+
+                if (context.HasMatch)
+                    yield return context.CurrentMatch!;
             }
             yield break;
         }

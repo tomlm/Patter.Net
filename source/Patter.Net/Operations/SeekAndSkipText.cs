@@ -13,13 +13,12 @@ namespace Patter.Operations
             _comparisonType = comparisonType;
         }
 
-        internal override T Execute(PatternContext<T> context)
+        internal override void Execute(PatternContext<T> context)
         {
             context.Pos = context.Text.IndexOf(_seekText, context.Pos, _comparisonType);
             if (context.Pos > 0)
                 context.Pos += _seekText.Length;
 
-            return default(T);
         }
     }
 }

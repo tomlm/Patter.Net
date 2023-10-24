@@ -11,7 +11,7 @@ namespace Patter.Operations
             _chars = new HashSet<char>(chars);
         }
 
-        internal override T Execute(PatternContext<T> context)
+        internal override void Execute(PatternContext<T> context)
         {
             while (context.Pos < context.Text.Length)
             {
@@ -20,7 +20,6 @@ namespace Patter.Operations
                     break;
                 context.Pos++;
             }
-            return default(T);
         }
     }
 }
