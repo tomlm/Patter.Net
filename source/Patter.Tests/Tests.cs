@@ -226,7 +226,7 @@ namespace Patter.Tests
         {
             // extract a pattern of odd
             var pattern = new PatternBuilder<bool>()
-                .Capture((context) =>
+                .Custom((context) =>
                 {
                     context.Match = ((int)context.CurrentChar) % 2 == 1;
                     context.MatchText = context.CurrentChar.ToString();

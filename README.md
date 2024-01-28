@@ -94,7 +94,7 @@ This will extract the text and urls from the tags.  It's an enumerable, so you c
 | **CaptureUntil(char[], func)**         | Capture characters until one of *chars* is found, call **func(context)** to give you ability to extract info from the **context.MatchText** and put into the **context.Match** |
 | **CaptureUntilPast(text, func)**       | Capture characters until text is found including text, then call **func(context)** to give you ability to extract info from the **context.MatchText** and put into the **context.Match** |
 | **CaptureUntilPast(char[], func)**     | Capture characters until one of *chars* is found, including all chars, call **func(context)** to give you ability to extract info from **context.MatchText** and put into **context.Match** |
-| **Capture(func)**                      | Let's you write a custom pattern operation, you are responsible for changing **context** properties directly (**Pos, MatchText, Match, HasMatch**) |
+| **Custom(func)**                       | Let's you write a custom pattern operation, you are responsible for changing **context** properties directly (**Pos, MatchText, Match, HasMatch etc**) |
 
 # PatternContext
 
@@ -108,7 +108,8 @@ The ```PatternContext``` object represents the current state of parser and is pa
 | **HasMatch**    | Indicates that there is a match to be returned in the enumeration.  At the end of enumerating the operations if there is a HasMatch **context.Match** is yielded to the caller. |
 | **Match**       | The object of type T that is yielded to the caller. You modify this object to build up the object that is yielded to the caller as a match.           |
 | **CurrentChar** | Shortcut for the current char value for the current Pos.  If it has Pos == -1 it will be ***(char)0*** |
-
+| **Memory**      | A Property bag scoped to all matches. This is useful for custom actions to track data across matching |
+| **MatchMemory** | A Property bag scoped to each match. It is reset when a sequence of operations is completed and a match is returned to caller. |
 
 # Chars
 The Chars class defines classes of useful characters for matching:
