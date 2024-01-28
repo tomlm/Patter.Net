@@ -12,7 +12,7 @@ namespace Patter.Operations
         private Action<PatternContext<T>> _func;
         private HashSet<char> _chars;
 
-        internal CaptureToChars(char[] chars, bool skipPast, Action<PatternContext<T>>? func)
+        internal CaptureToChars(char[] chars, bool skipPast, Action<PatternContext<T>> func)
         {
             _skipPast = skipPast;
             _func = func ?? DefaultFunc;
@@ -23,7 +23,7 @@ namespace Patter.Operations
         {
             if (typeof(T) == typeof(string))
             {
-                context.Match = (T)(object)context.MatchText!;
+                context.Match = (T)(object)context.MatchText;
             }
         }
 

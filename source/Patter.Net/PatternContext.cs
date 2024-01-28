@@ -26,9 +26,9 @@ namespace Patter
         /// </summary>
         public char CurrentChar { get => (Pos >= 0) ? Text[Pos] : Char.MinValue;  }
 
-        public string? MatchText { get; internal set; }
+        public string MatchText { get; internal set; }
 
-        public T? Match { get; set; }
+        public T Match { get; set; }
 
         public bool HasMatch { get; set; } = false;
 

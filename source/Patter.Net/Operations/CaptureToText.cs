@@ -11,7 +11,7 @@ namespace Patter.Operations
         private StringComparison _comparison;
         private bool _skipPast;
 
-        internal CaptureToText(string endText, StringComparison comparison, bool skipPast, Action<PatternContext<T>>? func)
+        internal CaptureToText(string endText, StringComparison comparison, bool skipPast, Action<PatternContext<T>> func)
         {
             _skipPast = skipPast;
             _func = func ?? DefaultFunc;
@@ -23,7 +23,7 @@ namespace Patter.Operations
         {
             if (typeof(T) == typeof(string))
             {
-                context.Match = (T)(object)context.MatchText!;
+                context.Match = (T)(object)context.MatchText;
             }
         }
 
