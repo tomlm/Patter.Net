@@ -165,13 +165,25 @@ namespace Patter
 
 
         /// <summary>
-        /// Custom capture action, call func(context) and context will have current position
+        /// call func(context) and context will have current position
         /// </summary>
         /// <param name="func"></param>
         /// <returns></returns>
         public PatternBuilder<T> Custom(Action<PatternContext<T>> func)
         {
-            _operations.Add(new Custom<T>(func));
+            _operations.Add(new Call<T>(func));
+            return this;
+        }
+
+
+        /// <summary>
+        /// call func(context) and context will have current position
+        /// </summary>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        public PatternBuilder<T> Call(Action<PatternContext<T>> func)
+        {
+            _operations.Add(new Call<T>(func));
             return this;
         }
 

@@ -5,12 +5,12 @@ using System.Diagnostics;
 namespace Patter.Operations
 {
  
-    [DebuggerDisplay("Custom()")]
-    internal class Custom<T> : PatternOp<T>
+    [DebuggerDisplay("Call()")]
+    internal class Call<T> : PatternOp<T>
     {
         private Action<PatternContext<T>> _func;
 
-        internal Custom(Action<PatternContext<T>> func)
+        internal Call(Action<PatternContext<T>> func)
         {
             if (func == null) throw new ArgumentNullException(nameof(func));
             _func = func ;

@@ -222,11 +222,11 @@ namespace Patter.Tests
         }
 
         [TestMethod]
-        public void CustomTest()
+        public void CallTest()
         {
             // extract a pattern of odd
             var pattern = new PatternBuilder<bool>()
-                .Custom((context) =>
+                .Call((context) =>
                 {
                     context.Match = ((int)context.CurrentChar) % 2 == 1;
                     context.MatchText = context.CurrentChar.ToString();
