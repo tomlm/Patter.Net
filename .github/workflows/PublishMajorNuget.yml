@@ -15,7 +15,7 @@ jobs:
       - name: Checkout 
         uses: actions/checkout@v4
         with:
-          path: Patter.Nat
+          path: Patter.Net
   
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
@@ -23,14 +23,14 @@ jobs:
           dotnet-version: 8.0.x
   
       - name: Restore dependencies
-        run: dotnet restore source/Patter.Nat
+        run: dotnet restore source/Patter.Net.sln
 
       - name: Build
-        run: dotnet build source/Patter.Nat -c Release --no-restore 
+        run: dotnet build source/Patter.Net.sln -c Release --no-restore 
   
       - name: dotnet pack 
         run: |
-          dotnet pack --no-build ./source/Patter.Nat -c Release -o packages --include-symbols --property WarningLevel=0
+          dotnet pack --no-build ./source/Patter.Net.sln -c Release -o packages --include-symbols --property WarningLevel=0
 
       - name: Publish NuGet and symbols
         id: nuget-push
